@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <raylib.h>
 
 #define MAX_PLANTS 4
@@ -38,15 +39,40 @@ static const Species MOSS = {
     .color     = (Color){ 40, 110, 70, 255 },   /* dark green */
 };
 
+void printGrid(Cell grid[][GRID_W]) {
+    for (int i = 0; i < GRID_H; i++) {
+        for (int j = 0; j < GRID_W; j++) {
+            if (grid[i][j].occupied) {
+                if (strcmp(grid[i][j].plant.species->name, "Grass") == 0) {
+                    printf("///");
+                } else if (strcmp(grid[i][j].plant.species->name, "Moss") == 0) {
+                    printf("***");
+                }
+            } else {
+                printf("_");
+            }
+        }
+        printf("\n");
+    }
+}
+
 int main() {
-    Cell *grid[GRID_H][GRID_W] = {0};
-
-    // TODO: seed the plants
-    for (int i = 0; i < 32; i++) {
-
+    Cell grid[GRID_H][GRID_W] = {0};
+  
+    for (int i = 0; i < MAX_PLANTS; i++) {
+        // seed plants half moss and half grass
+        if (i % 2 == 0) {
+            grid[i][i].occupied = true;
+            grid[i][i].plant = (Plant){ .species = &GRASS, .energy = 10.0f };
+        } else {
+            grid[i][i].occupied = true;
+            grid[i][i].plant = (Plant){ .species = &MOSS, .energy = 10.0f };
+        }
     }
 
+    printf("xenoterra - start\n");
+    printGrid(grid);
+    printf("xenoterra - end\n");
 
-    printf("Hello xenoterra!\n");
     return 0;
 }
