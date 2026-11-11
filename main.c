@@ -1,5 +1,5 @@
+#include <stdbool.h>
 #include <stdio.h>
-#include <string.h>
 #include <raylib.h>
 
 #define MAX_PLANTS 4
@@ -55,7 +55,7 @@ void printGrid(Cell grid[][GRID_W]) {
     }
 }
 
-int main() {
+int main(void) {
     Cell grid[GRID_H][GRID_W] = {0};
   
     for (int i = 0; i < MAX_PLANTS; i++) {
