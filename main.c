@@ -43,13 +43,13 @@ void printGrid(Cell grid[][GRID_W]) {
     for (int i = 0; i < GRID_H; i++) {
         for (int j = 0; j < GRID_W; j++) {
             if (grid[i][j].occupied) {
-                if (strcmp(grid[i][j].plant.species->name, "Grass") == 0) {
+                if (grid[i][j].plant.species == &GRASS) {
                     printf("///");
-                } else if (strcmp(grid[i][j].plant.species->name, "Moss") == 0) {
+                } else if (grid[i][j].plant.species == &MOSS) {
                     printf("***");
                 }
             } else {
-                printf("_");
+                printf("___");
             }
         }
         printf("\n");
