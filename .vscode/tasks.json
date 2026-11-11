@@ -1,0 +1,12 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build xenoterra",
+      "type": "shell",
+      "command": "gcc -Wall -Wextra -g main.c -o xenoterra $(pkg-config --cflags --libs raylib) -lm",
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}
