@@ -14,7 +14,6 @@ typedef struct {
 } Species;
 
 typedef struct {
-    int x, y;
     const Species *species;
     float energy;
 } Plant;
