@@ -1,8 +1,10 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <raylib.h>
+#include <time.h>
+#include <stdlib.h>
 
-#define MAX_PLANTS 4
+#define MAX_PLANTS 20
 #define GRID_W 32
 #define GRID_H 32
 
@@ -57,15 +59,22 @@ void printGrid(Cell grid[][GRID_W]) {
 
 int main(void) {
     Cell grid[GRID_H][GRID_W] = {0};
+    srand(time(NULL));
+    
+
   
     for (int i = 0; i < MAX_PLANTS; i++) {
         // seed plants half moss and half grass
+
+        int randX = rand() % (GRID_W + 1);
+        int randY = rand() % (GRID_H + 1);
+
         if (i % 2 == 0) {
-            grid[i][i].occupied = true;
-            grid[i][i].plant = (Plant){ .species = &GRASS, .energy = 10.0f };
+            grid[randY][randX].occupied = true;
+            grid[randY][randX].plant = (Plant){ .species = &GRASS, .energy = 10.0f };
         } else {
-            grid[i][i].occupied = true;
-            grid[i][i].plant = (Plant){ .species = &MOSS, .energy = 10.0f };
+            grid[randY][randX].occupied = true;
+            grid[randY][randX].plant = (Plant){ .species = &MOSS, .energy = 10.0f };
         }
     }
 
