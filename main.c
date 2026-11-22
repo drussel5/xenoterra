@@ -10,50 +10,67 @@
 
 typedef struct {
     const char *name;
-    float light_min;   /* lowest sunlight (0–1) the species does well in */
-    float light_max;   /* highest sunlight (0–1) the species does well in */
+    double light_min;   /* lowest sunlight (0–1) the species does well in */
+    double light_max;   /* highest sunlight (0–1) the species does well in */
     Color color;       /* what to draw it as */
 } Species;
 
 typedef struct {
     const Species *species;
-    float energy;
+    double energy;
 } Plant;
 
 typedef struct {
     bool occupied;
+    double light;
     Plant plant;
     /* later: float soil_moisture; float nutrients; */
 } Cell;
 
 static const Species GRASS = {
     .name      = "Grass",
-    .light_min = 0.5f,
-    .light_max = 1.0f,
+    .light_min = 0.5,
+    .light_max = 1.0,
     .color     = (Color){ 80, 200, 80, 255 },   /* green */
 };
 
 static const Species MOSS = {
     .name      = "Moss",
-    .light_min = 0.0f,
-    .light_max = 0.4f,
+    .light_min = 0.0,
+    .light_max = 0.4,
     .color     = (Color){ 40, 110, 70, 255 },   /* dark green */
 };
+
 
 void printGrid(Cell grid[][GRID_W]) {
     for (int i = 0; i < GRID_H; i++) {
         for (int j = 0; j < GRID_W; j++) {
             if (grid[i][j].occupied) {
                 if (grid[i][j].plant.species == &GRASS) {
-                    printf("///");
+                    printf("///");// light: %f", grid[i][j].light);
                 } else if (grid[i][j].plant.species == &MOSS) {
-                    printf("***");
+                    printf("***");// light: %f", grid[i][j].light);
                 }
             } else {
-                printf("___");
+                printf("___");// light: %f", grid[i][j].light);
+            }
+            // printf("%i,", grid[i][j].light);
+        }
+        printf("%i\n", i);
+    }
+}
+
+void initializeGrid(Cell grid[][GRID_W]) {
+    for (int i = 0; i < GRID_H; i++) {
+        for (int j = 0; j < GRID_W; j++) {
+            grid[i][j].occupied = false;
+            
+            if (i < 3) {
+                grid[i][j].light = 1.0;
+            } else {
+                grid[i][j].light = 0.2;
             }
         }
-        printf("\n");
     }
 }
 
@@ -61,26 +78,27 @@ int main(void) {
     Cell grid[GRID_H][GRID_W] = {0};
     srand(time(NULL));
     
-
-  
+    initializeGrid(grid);
     for (int i = 0; i < MAX_PLANTS; i++) {
         // seed plants half moss and half grass
 
         int randX = rand() % (GRID_W + 1);
         int randY = rand() % (GRID_H + 1);
 
-        if (i % 2 == 0) {
+        if (GRASS.light_min <= grid[randY][randX].light && grid[randY][randX].light <= GRASS.light_max) {
             grid[randY][randX].occupied = true;
-            grid[randY][randX].plant = (Plant){ .species = &GRASS, .energy = 10.0f };
-        } else {
+            grid[randY][randX].plant = (Plant){ .species = &GRASS, .energy = 10.0 };
+        } else if (MOSS.light_min <= grid[randY][randX].light && grid[randY][randX].light <= MOSS.light_max) {
             grid[randY][randX].occupied = true;
-            grid[randY][randX].plant = (Plant){ .species = &MOSS, .energy = 10.0f };
+            grid[randY][randX].plant = (Plant){ .species = &MOSS, .energy = 10.0 };
         }
     }
 
-    printf("xenoterra - start\n");
+   
+
+    // printf("xenoterra - start\n");
     printGrid(grid);
-    printf("xenoterra - end\n");
+    // printf("xenoterra - end\n");
 
     return 0;
 }
