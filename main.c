@@ -82,8 +82,8 @@ int main(void) {
     for (int i = 0; i < MAX_PLANTS; i++) {
         // seed plants half moss and half grass
 
-        int randX = rand() % (GRID_W + 1);
-        int randY = rand() % (GRID_H + 1);
+        int randX = rand() % (GRID_W);
+        int randY = rand() % (GRID_H);
 
         if (GRASS.light_min <= grid[randY][randX].light && grid[randY][randX].light <= GRASS.light_max) {
             grid[randY][randX].occupied = true;
