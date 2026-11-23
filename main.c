@@ -75,16 +75,21 @@ void initializeGrid(Cell grid[][GRID_W]) {
     }
 }
 
+
+
 int main(void) {
     Cell grid[GRID_H][GRID_W] = {0};
+    int randX, randY;
     srand(time(NULL));
     
     initializeGrid(grid);
     for (int i = 0; i < MAX_PLANTS; i++) {
         // seed plants, flaura grow where the light condition is met 
 
-        int randX = rand() % (GRID_W);
-        int randY = rand() % (GRID_H);
+        do {
+            randX = rand() % (GRID_W);
+            randY = rand() % (GRID_H);
+        } while (grid[randY][randX].occupied);
 
         if (GRASS.light_min <= grid[randY][randX].light && grid[randY][randX].light <= GRASS.light_max) {
             grid[randY][randX].occupied = true;
