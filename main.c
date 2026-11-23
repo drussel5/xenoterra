@@ -80,7 +80,7 @@ int main(void) {
     
     initializeGrid(grid);
     for (int i = 0; i < MAX_PLANTS; i++) {
-        // seed plants half moss and half grass
+        // seed plants, flaura grow where the light condition is met 
 
         int randX = rand() % (GRID_W);
         int randY = rand() % (GRID_H);
