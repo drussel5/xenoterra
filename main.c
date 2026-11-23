@@ -10,9 +10,10 @@
 
 typedef struct {
     const char *name;
-    double light_min;   /* lowest sunlight (0–1) the species does well in */
-    double light_max;   /* highest sunlight (0–1) the species does well in */
-    Color color;       /* what to draw it as */
+    double light_min;   // lowest sunlight (0–1) the species does well in
+    double light_max;   // highest sunlight (0–1) the species does well in
+    int energy;         // stored energy
+    Color color;        // what to draw it as
 } Species;
 
 typedef struct {
@@ -24,21 +25,21 @@ typedef struct {
     bool occupied;
     double light;
     Plant plant;
-    /* later: float soil_moisture; float nutrients; */
+    // later: float soil_moisture; float nutrients;
 } Cell;
 
 static const Species GRASS = {
     .name      = "Grass",
     .light_min = 0.5,
     .light_max = 1.0,
-    .color     = (Color){ 80, 200, 80, 255 },   /* green */
+    .color     = (Color){ 80, 200, 80, 255 },   // green
 };
 
 static const Species MOSS = {
     .name      = "Moss",
     .light_min = 0.0,
     .light_max = 0.4,
-    .color     = (Color){ 40, 110, 70, 255 },   /* dark green */
+    .color     = (Color){ 40, 110, 70, 255 },   // dark green
 };
 
 
@@ -73,7 +74,18 @@ void initializeGrid(Cell grid[][GRID_W]) {
     }
 }
 
+// iterate one cycle
+void step(Cell grid[][GRID_W]) {
+    // dead flora - ran out of energy
 
+    // consume one energy to stay alive
+
+    // consume two energy to transition to next life-cycle if ready
+
+    // replace energy
+    // - flora will generate energy from a sufficient light source
+    // - fauna will look for something to consume
+}
 
 int main(void) {
     Cell grid[GRID_H][GRID_W] = {0};
@@ -82,7 +94,7 @@ int main(void) {
     
     initializeGrid(grid);
     for (int i = 0; i < MAX_PLANTS; i++) {
-        // seed plants, flaura grow where the light condition is met 
+        // seed plants, flora grow where the light condition is met 
 
         do {
             randX = rand() % (GRID_W);
