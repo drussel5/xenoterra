@@ -65,6 +65,7 @@ void initializeGrid(Cell grid[][GRID_W]) {
         for (int j = 0; j < GRID_W; j++) {
             grid[i][j].occupied = false;
             
+            // set light for cells
             if (i < 3) {
                 grid[i][j].light = 1.0;
             } else {
