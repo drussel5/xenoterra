@@ -131,9 +131,13 @@ int main(void) {
         }
     }
 
+    int cycle = 1;
     while (true) {
+        printf("\033[H\033[2J");
+        printf("Cycle %d\n", cycle);
         printGrid(grid);
         step(grid);
+        cycle += 1;
         sleep(1);
     }
 
