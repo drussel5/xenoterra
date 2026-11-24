@@ -3,6 +3,7 @@
 #include <raylib.h>
 #include <time.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #define MAX_PLANTS 20
 #define GRID_W 32
@@ -77,6 +78,27 @@ void initializeGrid(Cell grid[][GRID_W]) {
 // iterate one cycle
 void step(Cell grid[][GRID_W]) {
     // dead flora - ran out of energy
+    for (int i = 0; i < GRID_H; i++) {
+        for (int j = 0; j < GRID_W; j++) {
+            // cell unoccupied
+            if (!grid[i][j].occupied) {
+                continue;
+            }
+
+            Cell *cell = &grid[i][j];
+            // plant dies without energy
+            if (cell->plant.energy <= 0) {
+                cell->occupied = false;
+                continue;
+            }
+
+            // 1 energy to live
+            cell->plant.energy -= 1;
+            
+            // TODO: plant may be ready to reproduce
+
+        }
+    }
 
     // consume one energy to stay alive
 
@@ -95,7 +117,6 @@ int main(void) {
     initializeGrid(grid);
     for (int i = 0; i < MAX_PLANTS; i++) {
         // seed plants, flora grow where the light condition is met 
-
         do {
             randX = rand() % (GRID_W);
             randY = rand() % (GRID_H);
@@ -103,18 +124,18 @@ int main(void) {
 
         if (GRASS.light_min <= grid[randY][randX].light && grid[randY][randX].light <= GRASS.light_max) {
             grid[randY][randX].occupied = true;
-            grid[randY][randX].plant = (Plant){ .species = &GRASS, .energy = 10.0 };
+            grid[randY][randX].plant = (Plant){ .species = &GRASS, .energy = 5 };
         } else if (MOSS.light_min <= grid[randY][randX].light && grid[randY][randX].light <= MOSS.light_max) {
             grid[randY][randX].occupied = true;
-            grid[randY][randX].plant = (Plant){ .species = &MOSS, .energy = 10.0 };
+            grid[randY][randX].plant = (Plant){ .species = &MOSS, .energy = 5};
         }
     }
 
-   
-
-    // printf("xenoterra - start\n");
-    printGrid(grid);
-    // printf("xenoterra - end\n");
+    while (true) {
+        printGrid(grid);
+        step(grid);
+        sleep(1);
+    }
 
     return 0;
 }
